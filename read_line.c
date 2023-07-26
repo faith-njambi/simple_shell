@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include "main.h"
 
-
-/*
- * readline - reads a strings from stdin
+/**
+ * readline - Reads a strings from stdin
  *
  * Return: number of chars read
  */
