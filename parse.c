@@ -28,9 +28,8 @@ char **strtow(char *str)
 	char **str_arr = NULL;
 	char empty[] = "";
 	int len;
-	int in_wrd = 0;
 	int elem_num, posi_n;
-	int i, m, z, p;
+	int m, z, p;
 
 	if (str == NULL || *str == *empty)
 		return (NULL);
@@ -71,9 +70,10 @@ char **strtow(char *str)
  *
  * Return: the number of words, -1 if failed
  */
-int word_count(char str)
+int word_count(char *str)
 {
 	int i;
+	int in_wrd = 0;
 	int elem_n = 0;
 
 	if (str == NULL)
