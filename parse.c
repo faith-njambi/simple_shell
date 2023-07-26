@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "main.h"
 
 /**
  * ischar - checks if a charcter is printable
@@ -69,40 +70,4 @@ char **strtow(char *str)
 			continue;
 	}
 	return (str_arr);
-}
-
-/**
- * print_tab - prints an array of string
- * @tab: array to print
- *
- * Return: Nothing
- */
-void print_tab(char **tab)
-{
-
-	int i;
-
-	for (i = 0; tab[i] != NULL; ++i)
-	{
-		printf("%s\n", tab[i]);
-	}
-}
-
-/**
- * main - checks the code
- *
- * Return: 1 if error occurs, 0 on success
- */
-int main(void)
-{
-	char **tab;
-
-	tab = strtow("		ALX School         #cisfun      ");
-	if (tab == NULL)
-	{
-		printf("Failed\n");
-		return (1);
-	}
-	print_tab(tab);
-	return (0);
 }

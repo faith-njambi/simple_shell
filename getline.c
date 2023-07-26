@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include "main.h"
@@ -29,7 +30,6 @@ char *argstostr(int ac, char **av)
 	str_com = malloc(sizeof(char) * tt_len);
 	if (!str_com)
 		return (NULL);
-	write(1, "#cisfun$", 8);
 	str_com[tt_len - 1] = '\0';
 	do {
 		if (av[p][j] == '\0')
