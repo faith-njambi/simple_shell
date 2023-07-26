@@ -15,8 +15,6 @@
  */
 int main(int ac, char **av, __attribute__((__unused__))char **env)
 {
-	int p = 0;
-	int q = 0;
 	int stat;
 	pid_t pid;
 	char *line;
@@ -25,16 +23,9 @@ int main(int ac, char **av, __attribute__((__unused__))char **env)
 	char *parsed;
 	int idx = 0;
 
-	char *term = "exit";
-	int n;
-	/*
-	 * char *echo = "echo";
-	 */
 	do {
 
-		write(1, "sh-> ", 5);
 		line = argstostr(ac, av);
-		
 		parsed = strtok(line, " ");
 		while (parsed != NULL)
 		{
@@ -51,7 +42,7 @@ int main(int ac, char **av, __attribute__((__unused__))char **env)
 		if (pid == 0)
 		{
 			execve(exec_str[0], exec_str, NULL);
-			read_a_line();
+			readline();
 		}
 		else if (pid < 0)
 			perror("Fork: ");

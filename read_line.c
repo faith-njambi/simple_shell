@@ -18,11 +18,8 @@ int readline(void)
 	int char_w = 0;
 
 
-/*
- *	do {
- */
 		do {
-		write(1, "$ ", 3);
+		write(1, "#cisfun$ ", 9);
 			char_r = read(0, buf, 72);
 			if (char_r > 0)
 			{
@@ -42,8 +39,10 @@ int readline(void)
 			else
 				break;
 		} while (1);
-/*
- * } while (1);
- */
 	return (count);
 }
+/*
+ *	do {
+ *
+ * } while (1);
+ */
