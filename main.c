@@ -1,53 +1,70 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "main.h"
-#include <string.h>
-#include <sys/wait.h>
+#include "shell.h"
 
 /**
- * main - starting point of shell program
+ * free_data - frees struct
+ * @shell_data: Struct
+ * Return: void
+ */
+void free_data(arg_list *shell_data)
+{
+	unsigned int i;
+
+	for (i = 0; shell_data->_environ[i]; i++)
+	{
+		free(shell_data->_environ[i]);
+	}
+
+	free(shell_data->_environ);
+	free(shell_data->pid);
+}
+
+/**
+ * set_data - initialize struct
+ * @shell_data: Struct
+ * @av: argument vector
+ * Return: void
+ */
+void set_data(arg_list *shell_data, char **av)
+{
+	unsigned int i;
+
+	shell_data->av = av;
+	shell_data->input = NULL;
+	shell_data->args = NULL;
+	shell_data->status = 0;
+	shell_data->counter = 1;
+
+	for (i = 0; environ[i]; i++)
+		;
+
+	shell_data->_environ = malloc(sizeof(char *) * (i + 1));
+
+	for (i = 0; environ[i]; i++)
+	{
+		shell_data->_environ[i] = _strdup(environ[i]);
+	}
+
+	shell_data->_environ[i] = NULL;
+	shell_data->pid = _itoa(getpid());
+}
+
+/**
+ * main - Entry point
  * @ac: argument count
  * @av: argument vector
- * @env: pointer to environmental variables
  *
- * Return: 0 success
+ * Return: 0
  */
-int main(int ac, char **av, __attribute__((__unused__))char **env)
+int main(int ac, char **av)
 {
-	int stat;
-	pid_t pid;
-	char *line;
-	char **exec_str = malloc(16 * sizeof(char *));
-	char *cd = "cd";
-	char *parsed;
-	int idx = 0;
+	arg_list shell_data;
+	(void) ac;
 
-	do {
-
-		line = argstostr(ac, av);
-		parsed = strtok(line, " ");
-		while (parsed != NULL)
-		{
-			exec_str[idx] = parsed;
-			parsed = strtok(NULL, " ");
-			idx++;
-		}
-		if (ac == 3)
-		{
-			if (strcmp(av[1], cd) == 0)
-				chdir(av[2]);
-		}
-		pid  = fork();
-		if (pid == 0)
-		{
-			execve(exec_str[0], exec_str, NULL);
-			readline();
-		}
-		else if (pid < 0)
-			perror("Fork: ");
-		else
-			wait(&stat);
-	} while (1);
-	return (0);
+	signal(SIGINT, handle_signal);
+	set_data(&shell_data, av);
+	loop_sh(&shell_data);
+	free_data(&shell_data);
+	if (shell_data.status < 0)
+		return (255);
+	return (shell_data.status);
 }
